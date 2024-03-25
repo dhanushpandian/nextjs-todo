@@ -7,6 +7,11 @@ function getTodos(){
   return prisma.todo.findMany()
 }
 
+async function toggletodo(id:string,complete:boolean){
+  "use server"
+  console.log(id,complete);
+  await prisma.todo.update({where:{id},data:{complete}})
+}
 export default async function Home() {
   
   //await prisma.todo.create({data:{title:"test",complete:false}})
@@ -22,7 +27,7 @@ export default async function Home() {
       <Link href={'/new'} className="border bg-slate-800 px-2 py-1 rounded hover:bg-slate-700 group-focus-within:bg-slate-700 outline-none">new</Link>
       </header>
         <ul className="pl-4 text-2xl	">
-          {todos.map(todo=> <Todoitem key={todo.id} {...todo}/>)}
+          {todos.map(todo=> <Todoitem key={todo.id} {...todo} toggletodo={toggletodo}/>)}
         {/* {todos.map(todo=>(<li key={todo.id}>{todo.title}</li>))} */}
         </ul>
     </>
